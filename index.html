@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="icon-web.jpg" type="image/jpeg" />
+        <meta property="og:title" content="Payment RZDK Store" />
+        <meta
+            property="og:description"
+            content="Halaman pembayaran resmi RZDK Store. ..."
+        />
+        <meta property="og:image" content="icon-web.jpg" />
+        <meta property="og:url" content="https://rzdkstore.vercel.app/" />
+        <title>Payment RZDK Store</title>
+        <style>
+            /* --- General Styling --- */
+            :root {
+                --primary-color: #171717; /* Warna biru QRIS */
+                --secondary-color: #ee4d2d; /* Warna oranye Shopee */
+                --seabank-color: #ee4d2d; /* Warna oranye SeaBank */
+                --jago-color: #fdb813; /* Warna kuning Bank Jago */
+                --dana-color: #108ee9; /* Warna biru DANA */
+                --gopay-color: #0081a0; /* Warna biru GoPay */
+                --bni-color: #f68200; /* Warna biru BNI */
+                --light-gray: #f8f9fa;
+                --dark-gray: #343a40;
+                --text-color: #495057;
+                --border-color: #dee2e6;
+                --success-color: #28a745;
+                --warning-bg: #fff3cd;
+                --warning-border: #ffeeba;
+                --warning-text: #856404;
+            }
+
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, sans-serif;
+                background-color: var(--light-gray);
+                color: var(--text-color);
+                margin: 0;
+                padding: 1rem;
+                line-height: 1.6;
+            }
+
+            /* --- Main Container --- */
+            .container {
+                max-width: 700px;
+                margin: 2rem auto;
+                background-color: #ffffff;
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+            }
+
+            /* --- Header --- */
+            .header {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary-color),
+                    #01a35a
+                );
+                color: #ffffff;
+                padding: 2rem;
+                text-align: center;
+            }
+
+            /* --- Logo Header --- */
+            .header-logo {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%; /* Membuat logo menjadi bulat */
+                margin-bottom: 1rem;
+                object-fit: cover; /* Memastikan gambar mengisi lingkaran */
+                border: 3px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .header h1 {
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 600;
+            }
+
+            .header p {
+                margin: 0.5rem 0 0;
+                opacity: 0.9;
+            }
+
+            /* --- Content --- */
+            .content {
+                padding: 2.5rem;
+            }
+
+            /* --- PENYESUAIAN 1: Tab System --- */
+            .tab-container {
+                display: flex;
+                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 2rem;
+                justify-content: center; /* <-- PERUBAHAN DI SINI: Tab rata tengah */
+            }
+
+            .tab-link {
+                padding: 0.75rem 1.25rem;
+                cursor: pointer;
+                background-color: transparent;
+                border: none;
+                font-size: 1.1rem;
+                font-weight: 500;
+                color: var(--text-color);
+                transition: all 0.2s ease-in-out;
+                margin-bottom: -1px; /* Agar border bawah menyatu */
+                border-bottom: 3px solid transparent;
+                white-space: nowrap; /* Mencegah teks tab terpotong/wrap */
+            }
+
+            .tab-link:hover {
+                background-color: #f9f9f9;
+                color: var(--dark-gray);
+            }
+
+            .tab-link.active {
+                color: var(--primary-color);
+                font-weight: 600;
+                border-bottom: 3px solid var(--primary-color);
+            }
+
+            .tab-content {
+                display: none; /* Sembunyikan semua konten tab secara default */
+            }
+
+            .tab-content.active {
+                display: block; /* Tampilkan hanya konten tab yang aktif */
+            }
+            /* --- AKHIR PENYESUAIAN 1: Tab System --- */
+
+            /* --- Payment Method Card --- */
+            .payment-method {
+                border: 1px solid var(--border-color);
+                border-radius: 10px;
+                margin-bottom: 2rem;
+                transition: box-shadow 0.3s ease;
+            }
+
+            .payment-method:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Perubahan: Hapus margin-bottom dari item terakhir di tab bank/ewallet */
+            #bank .payment-method:last-child,
+            #ewallet .payment-method:last-child {
+                margin-bottom: 0;
+            }
+
+            .method-header {
+                display: flex;
+                align-items: center;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+                background-color: #fcfcfc;
+            }
+
+            .method-header img {
+                width: 32px;
+                height: 32px;
+                margin-right: 1rem;
+                flex-shrink: 0;
+                object-fit: contain;
+            }
+
+            .method-header h2 {
+                margin: 0;
+                font-size: 1.5rem;
+                color: var(--dark-gray);
+            }
+
+            .method-body {
+                padding: 1.5rem;
+            }
+
+            /* --- QRIS Section --- */
+            .qris-container {
+                text-align: center;
+                margin: 1.5rem 0;
+            }
+
+            .qris-image {
+                max-width: 280px;
+                width: 100%;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 10px;
+                background-color: #ffffff;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .qris-note {
+                text-align: center;
+                font-size: 0.95rem;
+                color: var(--text-color);
+                margin-top: 1rem;
+                background-color: var(--light-gray);
+                padding: 0.8rem;
+                border-radius: 8px;
+            }
+
+            .account-name {
+                margin-top: -0.5rem;
+                margin-bottom: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .account-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #f1f1f1;
+                padding: 1rem;
+                border-radius: 8px;
+                flex-wrap: wrap;
+            }
+
+            .account-number {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--dark-gray);
+                word-break: break-all;
+                margin-right: 1rem;
+            }
+
+            .button-group {
+                display: flex;
+                flex-shrink: 0;
+                gap: 0.5rem;
+            }
+
+            /* --- Copy Button --- */
+            .copy-btn {
+                background-color: var(--primary-color);
+                color: #ffffff;
+                border: none;
+                padding: 0.75rem 1.25rem;
+                border-radius: 6px;
+                font-weight: 600;
+                cursor: pointer;
+                transition:
+                    background-color 0.2s ease,
+                    transform 0.1s ease;
+                white-space: nowrap;
+            }
+
+            .copy-btn.deeplink-btn {
+                text-decoration: none;
+            }
+
+            /* --- Tombol Unduh QRIS --- */
+            .download-btn {
+                text-decoration: none;
+                display: inline-block;
+                margin-top: 1rem;
+                background-color: #6c757d; /* Warna abu-abu sekunder */
+                color: #ffffff;
+            }
+            .download-btn:hover {
+                background-color: #5a6268;
+                opacity: 1; /* Override opacity hover jika ada */
+            }
+
+            .copy-btn:hover {
+                opacity: 0.85;
+            }
+
+            .copy-btn:active {
+                transform: scale(0.97);
+            }
+
+            .copy-btn.copied {
+                background-color: var(--success-color);
+            }
+
+            /* --- Special Note for ShopeePay --- */
+            .shopee-note {
+                margin-top: 1.5rem;
+                padding: 1.5rem;
+                background-color: var(--warning-bg);
+                border: 1px solid var(--warning-border);
+                border-radius: 8px;
+                color: var(--warning-text);
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .shopee-note img {
+                width: 24px;
+                height: 24px;
+                margin-right: 1rem;
+                flex-shrink: 0;
+                margin-top: 5px;
+            }
+
+            .shopee-note .note-content {
+                flex-grow: 1;
+            }
+
+            .shopee-note p {
+                margin: 0;
+            }
+
+            .shopee-note ul {
+                padding-left: 20px;
+                margin: 0.5rem 0 0 0;
+            }
+
+            .shopee-note li {
+                margin-bottom: 0.75rem;
+            }
+
+            .shopee-note strong {
+                color: #664d03;
+            }
+
+            /* --- Footer --- */
+            .footer {
+                text-align: center;
+                padding: 0 1rem 1rem;
+                font-size: 0.9rem;
+                color: #888;
+            }
+
+            /* --- PENYESUAIAN 2: Konten QRIS Rata Tengah --- */
+            /* Mengatur header (logo + teks) QRIS ke tengah */
+            #qris .method-header {
+                justify-content: center;
+            }
+
+            /* Mengatur paragraf deskripsi pertama QRIS ke tengah */
+            #qris .method-body > p:first-of-type {
+                text-align: center;
+            }
+            /* --- AKHIR PENYESUAIAN 2 --- */
+
+            /* ---  CSS Akordeon --- */
+            #bank .method-body,
+            #ewallet .method-body {
+                max-height: 0;
+                overflow: hidden;
+                padding-top: 0; /* Hapus padding saat tertutup */
+                padding-bottom: 0; /* Hapus padding saat tertutup */
+                transition:
+                    max-height 0.4s ease-in-out,
+                    padding-top 0.4s ease-in-out,
+                    padding-bottom 0.4s ease-in-out;
+            }
+
+            /* Saat Akordeon Aktif (terbuka) */
+            #bank .payment-method.active .method-body,
+            #ewallet .payment-method.active .method-body {
+                max-height: 1000px; /* Atur ke angka besar (untuk transisi) */
+                padding: 1.5rem; /* Kembalikan padding asli */
+            }
+
+            /* Penyesuaian Header agar bisa diklik dan ada indikator */
+            #bank .method-header,
+            #ewallet .method-header {
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+            }
+
+            #bank .method-header:hover,
+            #ewallet .method-header:hover {
+                background-color: #f9f9f9;
+            }
+
+            /* Indikator Panah */
+            #bank .method-header::after,
+            #ewallet .method-header::after {
+                content: "▼";
+                font-size: 0.9rem;
+                color: var(--text-color);
+                opacity: 0.7;
+                margin-left: auto;
+                padding-left: 1rem;
+                transition: transform 0.3s ease-out;
+            }
+
+            /* Saat aktif, putar panah */
+            #bank .payment-method.active .method-header::after,
+            #ewallet .payment-method.active .method-header::after {
+                transform: rotate(180deg);
+            }
+
+            /* Saat tidak aktif, hapus border bawah header */
+            #bank .payment-method:not(.active) .method-header,
+            #ewallet .payment-method:not(.active) .method-header {
+                border-bottom: none;
+            }
+
+            /* --- Responsive Design --- */
+            @media (max-width: 600px) {
+                body {
+                    padding: 0;
+                }
+                .container {
+                    margin: 0;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+                .content {
+                    padding: 1.5rem;
+                }
+                .header {
+                    padding: 1.5rem;
+                }
+                /* PENYESUAIAN RESPONSIF: Perkecil logo di HP */
+                .header-logo {
+                    width: 80px;
+                    height: 80px;
+                }
+                .header h1 {
+                    font-size: 1.8rem;
+                }
+                .account-info {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .account-number {
+                    margin-bottom: 1rem;
+                }
+                .copy-btn {
+                    width: 100%;
+                    text-align: center;
+                }
+                .button-group {
+                    width: 100%;
+                    display: flex;
+                }
+                .button-group .copy-btn {
+                    flex: 1;
+                }
+                .tab-container {
+                    width: 100%;
+                    /* Justify-content: center; tidak diperlukan di mobile
+                       karena tab-link di bawah sudah diatur flex: 1 */
+                }
+                .tab-link {
+                    flex: 1; /* Membuat 3 tab memenuhi lebar */
+                    text-align: center;
+                    font-size: 0.9rem; /* Perkecil font di HP */
+                    padding: 0.75rem 0.25rem;
+                }
+
+                /* PERUBAHAN RESPONSIF: Pastikan header QRIS tetap tengah di mobile */
+                #qris .method-header {
+                    justify-content: center;
+                }
+            }
+        </style>
+    </head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            /* ---  Logika Tab --- */
+            const tabLinks = document.querySelectorAll(".tab-link");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            tabLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    const targetTab = link.getAttribute("data-tab"); // misal: "bank"
+
+                    // 1. Nonaktifkan semua tab link dan konten
+                    tabLinks.forEach((item) => {
+                        item.classList.remove("active");
+                        item.setAttribute("aria-selected", "false"); // <-- MODIFIKASI ARIA
+                    });
+                    tabContents.forEach((item) =>
+                        item.classList.remove("active"),
+                    );
+
+                    // 2. Aktifkan tab link yang diklik
+                    link.classList.add("active");
+                    link.setAttribute("aria-selected", "true"); // <-- MODIFIKASI ARIA
+
+                    // 3. Aktifkan konten yang sesuai
+                    document.getElementById(targetTab).classList.add("active");
+                });
+            });
+
+            /* ---  Anti-Inspect & View Source --- */
+            // Peringatan: Ini tidak memberikan keamanan nyata dan
+            // merusak pengalaman pengguna (UX). Tidak direkomendasikan.
+
+            // Blok Klik Kanan
+            document.addEventListener(
+                "contextmenu",
+                function (e) {
+                    e.preventDefault();
+                },
+                false,
+            );
+
+            // Blok Shortcut Keyboard
+            document.addEventListener(
+                "keydown",
+                function (e) {
+                    // Ctrl+U (View Source)
+                    if (e.ctrlKey && e.keyCode == 85) {
+                        e.preventDefault();
+                    }
+                    // F12 (Dev Tools)
+                    if (e.keyCode == 123) {
+                        e.preventDefault();
+                    }
+                    // Ctrl+Shift+I (Dev Tools)
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                        e.preventDefault();
+                    }
+                    // Ctrl+Shift+J (Dev Tools)
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                        e.preventDefault();
+                    }
+                    // Ctrl+Shift+C (Dev Tools)
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 67) {
+                        e.preventDefault();
+                    }
+                },
+                false,
+            );
+
+            /* --- Logika Akordeon --- */
+            const accordionTriggers = document.querySelectorAll(
+                "#bank .method-header, #ewallet .method-header",
+            );
+
+            accordionTriggers.forEach((trigger) => {
+                trigger.addEventListener("click", function () {
+                    const parentItem = this.parentElement; // .payment-method
+                    const parentTabContent = parentItem.parentElement; // #bank atau #ewallet
+                    const wasActive = parentItem.classList.contains("active");
+
+                    // 1. Nonaktifkan semua item di dalam tab ini
+                    const allItemsInTab =
+                        parentTabContent.querySelectorAll(".payment-method");
+                    allItemsInTab.forEach((item) => {
+                        item.classList.remove("active");
+                    });
+
+                    // 2. Jika item yang diklik tadi *tidak* aktif, aktifkan
+                    if (!wasActive) {
+                        parentItem.classList.add("active");
+                    }
+                    // Jika sudah aktif, langkah 1 sudah menonaktifkannya (efek toggle)
+                });
+            });
+
+            /* --- Logika Tombol Salin (Copy) Anda yang sudah ada --- */
+            const copyButtons = document.querySelectorAll(".copy-btn");
+
+            copyButtons.forEach((button) => {
+                // Hanya tambahkan event listener jika bukan tombol deeplink ATAU tombol download
+                if (
+                    !button.classList.contains("deeplink-btn") &&
+                    !button.classList.contains("download-btn")
+                ) {
+                    const originalColor = button.style.backgroundColor;
+                    const originalTextColor = button.style.color;
+
+                    button.addEventListener("click", function () {
+                        const targetId = this.getAttribute("data-copy-target");
+                        const textToCopy =
+                            document.getElementById(targetId).innerText;
+
+                        navigator.clipboard
+                            .writeText(textToCopy)
+                            .then(() => {
+                                const originalText = this.innerText;
+                                this.innerText = "Tersalin!";
+                                this.classList.add("copied");
+                                this.style.backgroundColor = "";
+                                this.style.color = "";
+
+                                setTimeout(() => {
+                                    this.innerText = originalText;
+                                    this.classList.remove("copied");
+                                    this.style.backgroundColor = originalColor;
+                                    this.style.color = originalTextColor;
+                                }, 2000);
+                            })
+                            .catch((err) => {
+                                console.error("Gagal menyalin teks: ", err);
+                                const originalText = this.innerText;
+                                this.innerText = "Gagal!";
+                                setTimeout(() => {
+                                    this.innerText = originalText;
+                                }, 2000);
+                            });
+                    });
+                }
+            });
+        });
+    </script>
+    <body>
+        <div class="container">
+            <header class="header">
+                <img
+                    src="icon-web.jpg"
+                    alt="Logo RZDK Store"
+                    class="header-logo"
+                    onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/777?text=RZDK';"
+                />
+                <h1>Payment RZDK Store</h1>
+                <p>Pilih salah satu jenis metode pembayaran yang tersedia</p>
+            </header>
+
+            <main class="content">
+                <div class="tab-container" role="tablist">
+                    <button
+                        class="tab-link active"
+                        data-tab="qris"
+                        role="tab"
+                        aria-controls="qris"
+                        aria-selected="true"
+                        id="tab-qris"
+                    >
+                        QRIS
+                    </button>
+                    <button
+                        class="tab-link"
+                        data-tab="bank"
+                        role="tab"
+                        aria-controls="bank"
+                        aria-selected="false"
+                        id="tab-bank"
+                    >
+                        Transfer Bank
+                    </button>
+                    <button
+                        class="tab-link"
+                        data-tab="ewallet"
+                        role="tab"
+                        aria-controls="ewallet"
+                        aria-selected="false"
+                        id="tab-ewallet"
+                    >
+                        E-Wallet
+                    </button>
+                </div>
+
+                <div
+                    id="qris"
+                    class="tab-content active"
+                    role="tabpanel"
+                    aria-labelledby="tab-qris"
+                >
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="logo-qris.png"
+                                alt="Logo QRIS"
+                                style="
+                                    width: 48px;
+                                    height: auto;
+                                    margin-right: 0.8rem;
+                                "
+                                onerror="this.onerror=null;this.src='https.placehold.co/48x32/eef0f2/777?text=QRIS';"
+                            />
+                        </div>
+                        <div class="method-body">
+                            <p>
+                                Mendukung semua jenis E-Wallet dan Mobile
+                                Banking.
+                            </p>
+                            <div class="qris-container">
+                                <img
+                                    src="qris-rzdkstore.png"
+                                    alt="QRIS Code RZDK Store"
+                                    class="qris-image"
+                                    onerror="this.onerror=null;this.src='https.placehold.co/280x280/eef0f2/777?text=QRIS+Anda';"
+                                />
+                                <br /><a
+                                    href="qris-rzdkstore.png"
+                                    download="QRIS_RZDK_STORE.png"
+                                    class="copy-btn download-btn"
+                                >
+                                    Unduh QRIS
+                                </a>
+                            </div>
+                            <p class="qris-note">
+                                <strong>PENTING!</strong><br />
+                                Pastikan nama Merchant yang muncul adalah
+                                <strong>"RZDK STORE"</strong> sebelum
+                                menyelesaikan pembayaran.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    id="bank"
+                    class="tab-content"
+                    role="tabpanel"
+                    aria-labelledby="tab-bank"
+                >
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="logobni.png"
+                                alt="Logo Bank BNI"
+                                onerror="this.onerror=null;this.src='https.placehold.co/32x32/0065A9/ffffff?text=BNI';"
+                            />
+                            <h2>Bank BNI</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>Silakan transfer ke nomor rekening berikut:</p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+                            <div class="account-info">
+                                <span class="account-number" id="bni-number"
+                                    >1987014491</span
+                                >
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="bni-number"
+                                    style="background-color: var(--bni-color)"
+                                >
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="logojago.png"
+                                alt="Logo Bank Jago"
+                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/FDB813/333?text=J';"
+                            />
+                            <h2>Bank Jago Syariah</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>
+                                Silakan transfer ke nomor rekening / Kantong
+                                Jago berikut:
+                            </p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+                            <div class="account-info">
+                                <span class="account-number" id="jago-number"
+                                    >503936025107</span
+                                >
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="jago-number"
+                                    style="
+                                        background-color: var(--jago-color);
+                                        color: var(--dark-gray);
+                                    "
+                                >
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="1.png"
+                                alt="Logo SeaBank"
+                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/ee4d2d/ffffff?text=S';"
+                            />
+                            <h2>SeaBank</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>Silakan transfer ke nomor rekening berikut:</p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+                            <div class="account-info">
+                                <span class="account-number" id="seabank-number"
+                                    >901168533320</span
+                                >
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="seabank-number"
+                                    style="
+                                        background-color: var(--seabank-color);
+                                    "
+                                >
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    id="ewallet"
+                    class="tab-content"
+                    role="tabpanel"
+                    aria-labelledby="tab-ewallet"
+                >
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="logodana.png"
+                                alt="Logo DANA"
+                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/108EE9/ffffff?text=D';"
+                            />
+                            <h2>DANA</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>Silakan transfer ke nomor DANA berikut:</p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+
+                            <div class="account-info">
+                                <span class="account-number" id="dana-number"
+                                    >082242118818</span
+                                >
+                                <div class="button-group">
+                                    <a
+                                        href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012020042987204315"
+                                        target="_blank"
+                                        class="copy-btn deeplink-btn"
+                                        style="
+                                            background-color: var(--dana-color);
+                                        "
+                                        >Buka DANA</a
+                                    >
+                                    <button
+                                        class="copy-btn"
+                                        data-copy-target="dana-number"
+                                        style="
+                                            background-color: var(--dana-color);
+                                        "
+                                    >
+                                        Salin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="logogopay.png"
+                                alt="Logo GoPay"
+                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/0081A0/ffffff?text=G';"
+                            />
+                            <h2>GoPay</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>Silakan transfer ke nomor GoPay berikut:</p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+                            <div class="account-info">
+                                <span class="account-number" id="gopay-number"
+                                    >082242118818</span
+                                >
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="gopay-number"
+                                    style="background-color: var(--gopay-color)"
+                                >
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <img
+                                src="2.png"
+                                alt="Logo ShopeePay"
+                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/ee4d2d/ffffff?text=S
+                     P';"
+                            />
+                            <h2>ShopeePay</h2>
+                        </div>
+                        <div class="method-body">
+                            <p>Silakan transfer ke nomor ShopeePay berikut:</p>
+                            <p class="account-name">
+                                a.n. <strong>REZA DITYA KESUMA</strong>
+                            </p>
+                            <div class="account-info">
+                                <span
+                                    class="account-number"
+                                    id="shopeepay-number"
+                                    >082242118818</span
+                                >
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="shopeepay-number"
+                                    style="
+                                        background-color: var(
+                                            --secondary-color
+                                        );
+                                    "
+                                >
+                                    Salin
+                                </button>
+                            </div>
+
+                            <div class="shopee-note">
+                                <img
+                                    src="warning.png"
+                                    alt="Ikon Peringatan"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/24x24/ee4d2d/ffffff?text=!';"
+                                />
+                                <div class="note-content">
+                                    <p style="margin: 0">
+                                        <strong
+                                            >PENTING: Mohon periksa rincian di
+                                            aplikasi Anda sebelum bayar.</strong
+                                        >
+                                    </p>
+                                    <ul
+                                        style="
+                                            padding-left: 20px;
+                                            margin: 0.5rem 0 0 0;
+                                        "
+                                    >
+                                        <li style="margin-bottom: 0.75rem">
+                                            <strong
+                                                >Jika TIDAK ADA 'Biaya
+                                                Admin'</strong
+                                            >
+                                            yang tertera di halaman konfirmasi,
+                                            mohon
+                                            <strong>tambahkan Rp1.000</strong>
+                                            pada nominal transfer Anda.
+                                            <br />
+                                            <em
+                                                >Contoh: Tagihan Rp100.000
+                                                &rarr; transfer
+                                                <strong>Rp101.000</strong></em
+                                            >
+                                        </li>
+                                        <li>
+                                            <strong
+                                                >Jika SUDAH ADA 'Biaya
+                                                Admin'</strong
+                                            >
+                                            yang tertera di halaman konfirmasi,
+                                            Anda cukup membayar sesuai total
+                                            yang muncul di aplikasi Anda (tidak
+                                            perlu ditambah Rp1.000 lagi).
+                                        </li>
+                                    </ul>
+                                    <p
+                                        style="
+                                            margin: 1rem 0 0 0;
+                                            font-size: 0.9em;
+                                            line-height: 1.5;
+                                        "
+                                    >
+                                        <em
+                                            >Penyesuian ini diperlukan karena
+                                            beberapa layanan membebankan biaya
+                                            admin kepada penerima (penjual) jika
+                                            biaya tersebut tidak ditampilkan di
+                                            aplikasi pengirim.</em
+                                        >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
