@@ -1,1 +1,0 @@
-# rzdkstore-payment
