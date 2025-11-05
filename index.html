@@ -11,6 +11,14 @@
         />
         <meta property="og:image" content="icon-web.jpg" />
         <meta property="og:url" content="https://rzdkstore.vercel.app/" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Inter:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+
         <title>Payment RZDK Store</title>
         <style>
             /* --- General Styling --- */
@@ -33,14 +41,24 @@
             }
 
             body {
-                font-family:
-                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    "Helvetica Neue", Arial, sans-serif;
+                /* MODIFIKASI: Menggunakan font Inter dari katalog */
+                font-family: "Inter", sans-serif;
                 background-color: var(--light-gray);
                 color: var(--text-color);
                 margin: 0;
                 padding: 1rem;
                 line-height: 1.6;
+            }
+
+            /* --- MODIFIKASI: Font Poppins (seperti katalog) --- */
+            .header h1,
+            .tab-link,
+            .payment-placeholder h3,
+            .method-header h2,
+            .copy-btn,
+            .account-number {
+                font-family: "Poppins", sans-serif;
+                font-weight: 600;
             }
 
             /* --- Main Container --- */
@@ -78,7 +96,7 @@
             .header h1 {
                 margin: 0;
                 font-size: 2rem;
-                font-weight: 600;
+                /* font-weight: 600; DIHAPUS: Diatur oleh blok Poppins */
             }
 
             .header p {
@@ -92,38 +110,47 @@
                 padding: 2.5rem;
             }
 
-            /* --- Tab System --- */
+            /* --- MODIFIKASI: Tab System (Gaya Katalog) --- */
             .tab-container {
                 display: flex;
-                border-bottom: 1px solid var(--border-color);
+                flex-wrap: wrap;
+                background: #2c2c2c; /* DIUBAH: Latar belakang kontainer gelap */
+                border-radius: 8px;
+                padding: 5px;
                 margin-bottom: 2rem;
-                justify-content: center;
             }
 
             .tab-link {
-                padding: 0.75rem 1.25rem;
+                flex-grow: 1; /* DIUBAH: Membuat tombol memenuhi ruang */
+                flex-shrink: 0;
+                padding: 12px 10px; /* DIUBAH: Padding baru */
                 cursor: pointer;
-                background-color: transparent;
+                background: none; /* DIUBAH: Latar transparan */
                 border: none;
-                font-size: 1.1rem;
-                font-weight: 500;
-                color: var(--text-color);
-                transition: all 0.2s ease-in-out;
-                margin-bottom: -1px;
-                border-bottom: 3px solid transparent;
-                white-space: nowrap;
+                font-size: 1em; /* DIUBAH: Menyesuaikan ukuran font */
+                /* font-weight: 500; DIHAPUS: Diatur oleh blok Poppins */
+                color: #ffffff; /* DIUBAH: Teks putih saat tidak aktif */
+                border-radius: 6px; /* DIUBAH: Sudut melengkung */
+                transition:
+                    background-color 0.3s ease,
+                    color 0.3s ease;
+                text-align: center;
+                /* Hapus margin-bottom, border-bottom, white-space */
             }
 
             .tab-link:hover {
-                background-color: #f9f9f9;
-                color: var(--dark-gray);
+                background-color: transparent; /* DIUBAH: Latar tetap transparan */
+                color: #0edf7d; /* DIUBAH: Teks menjadi hijau */
             }
 
             .tab-link.active {
-                color: var(--primary-color);
-                font-weight: 600;
-                border-bottom: 3px solid var(--primary-color);
+                background-color: #0edf7d; /* DIUBAH: Latar belakang HIJAU */
+                color: #171717; /* DIUBAH: Teks HITAM */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                /* Hapus color dan border-bottom lama */
+                /* font-weight: 600; DIHAPUS: Diatur oleh blok Poppins */
             }
+            /* --- AKHIR MODIFIKASI TAB --- */
 
             .tab-content {
                 display: none;
@@ -264,7 +291,7 @@
 
             .account-number {
                 font-size: 1.5rem;
-                font-weight: 600;
+                /* font-weight: 600; DIHAPUS: Diatur oleh blok Poppins */
                 color: var(--dark-gray);
                 word-break: break-all;
                 margin-right: 1rem;
@@ -283,7 +310,7 @@
                 border: none;
                 padding: 0.75rem 1.25rem;
                 border-radius: 6px;
-                font-weight: 600;
+                /* font-weight: 600; DIHAPUS: Diatur oleh blok Poppins */
                 cursor: pointer;
                 transition:
                     background-color 0.2s ease,
@@ -474,15 +501,27 @@
                 .button-group .copy-btn {
                     flex: 1;
                 }
+                
+                /* MODIFIKASI: Penyesuaian Tab Responsif */
                 .tab-container {
-                    width: 100%;
+                    flex-wrap: nowrap;
+                    overflow-x: auto;
+                    -ms-overflow-style: none; /* IE 11 */
+                    scrollbar-width: none; /* Firefox */
                 }
+                /* Sembunyikan scrollbar untuk Chrome, Safari, Opera */
+                .tab-container::-webkit-scrollbar {
+                    display: none;
+                }
+
                 .tab-link {
-                    flex: 1;
-                    text-align: center;
-                    font-size: 0.9rem;
-                    padding: 0.75rem 0.25rem;
+                    /* font-size: 0.9rem; */ /* Ukuran font sudah diatur oleh .tab-link */
+                    padding: 12px 15px; /* Sesuaikan padding responsif */
+                    flex-shrink: 0; /* Mencegah tombol menyusut */
+                    white-space: nowrap; /* Pastikan teks tidak terpotong */
                 }
+                /* --- AKHIR MODIFIKASI TAB --- */
+
                 #qris .method-header {
                     justify-content: center;
                 }
