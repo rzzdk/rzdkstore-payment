@@ -113,7 +113,7 @@
             /* --- MODIFIKASI: Tab System (Gaya Katalog) --- */
             .tab-container {
                 display: flex;
-                flex-wrap: wrap;
+                /* MODIFIKASI: flex-wrap: wrap; DIHAPUS agar tombol sama rata */
                 background: #2c2c2c; /* DIUBAH: Latar belakang kontainer gelap */
                 border-radius: 8px;
                 padding: 5px;
@@ -501,7 +501,7 @@
                 .button-group .copy-btn {
                     flex: 1;
                 }
-                
+
                 /* MODIFIKASI: Penyesuaian Tab Responsif */
                 .tab-container {
                     flex-wrap: nowrap;
@@ -668,22 +668,12 @@
                 />
                 <h1>Payment RZDK Store</h1>
                 <p>
-                    Silakan pilih salah satu metode pembayaran di bawah (QRIS,
-                    Transfer Bank, atau E-Wallet) untuk melanjutkan.
+                    Silakan pilih salah satu metode pembayaran di bawah
+                    (Transfer Bank, QRIS, atau E-Wallet) untuk melanjutkan.
                 </p>
             </header>
             <main class="content">
                 <div class="tab-container" role="tablist">
-                    <button
-                        class="tab-link"
-                        data-tab="qris"
-                        role="tab"
-                        aria-controls="qris"
-                        aria-selected="false"
-                        id="tab-qris"
-                    >
-                        QRIS
-                    </button>
                     <button
                         class="tab-link"
                         data-tab="bank"
@@ -693,6 +683,16 @@
                         id="tab-bank"
                     >
                         Transfer Bank
+                    </button>
+                    <button
+                        class="tab-link"
+                        data-tab="qris"
+                        role="tab"
+                        aria-controls="qris"
+                        aria-selected="false"
+                        id="tab-qris"
+                    >
+                        QRIS
                     </button>
                     <button
                         class="tab-link"
