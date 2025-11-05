@@ -53,7 +53,7 @@
                 overflow: hidden;
             }
 
-            /* --- Header --- */
+            /* --- MODIFIKASI: Header Dikembalikan Seperti Semula --- */
             .header {
                 background: linear-gradient(
                     135deg,
@@ -61,9 +61,18 @@
                     #01a35a
                 );
                 color: #ffffff;
-                /* MODIFIKASI: Padding disesuaikan untuk tampilan judul saja */
-                padding: 1.5rem 2rem;
+                padding: 2rem; /* Padding dikembalikan */
                 text-align: center;
+            }
+
+            /* --- Logo Header --- */
+            .header-logo {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%; /* Membuat logo menjadi bulat */
+                margin-bottom: 1rem;
+                object-fit: cover; /* Memastikan gambar mengisi lingkaran */
+                border: 3px solid rgba(255, 255, 255, 0.2);
             }
 
             .header h1 {
@@ -71,6 +80,12 @@
                 font-size: 2rem;
                 font-weight: 600;
             }
+
+            .header p {
+                margin: 0.5rem 0 0;
+                opacity: 0.9;
+            }
+            /* --- AKHIR MODIFIKASI HEADER --- */
 
             /* --- Content --- */
             .content {
@@ -118,11 +133,11 @@
                 display: block;
             }
 
-            /* --- MODIFIKASI: Style untuk Placeholder --- */
+            /* --- Style untuk Placeholder --- */
             .payment-placeholder {
                 display: none; /* Sembunyi by default */
                 text-align: center;
-                padding: 2.5rem 1.5rem; /* Padding disesuaikan */
+                padding: 2.5rem 1.5rem;
                 background-color: #fdfdfd;
                 border: 1px dashed var(--border-color);
                 border-radius: 10px;
@@ -144,24 +159,23 @@
             .payment-placeholder h3 {
                 font-size: 1.5rem;
                 color: var(--dark-gray);
-                margin: 0 0 1rem 0; /* Tambah margin-bottom */
+                margin: 0 0 1rem 0;
             }
 
             .payment-placeholder p {
                 font-size: 1rem;
-                margin: 0 auto; /* Rata tengah */
+                margin: 0 auto;
                 opacity: 0.9;
-                max-width: 550px; /* Batasi lebar paragraf */
+                max-width: 550px;
                 line-height: 1.7;
             }
 
             .payment-placeholder p.placeholder-text-secondary {
                 font-size: 0.9rem;
-                margin-top: 1.5rem; /* Spasi dari paragraf atas */
+                margin-top: 1.5rem;
                 opacity: 0.8;
                 line-height: 1.6;
             }
-            /* --- Akhir Style Placeholder --- */
 
             /* --- Payment Method Card --- */
             .payment-method {
@@ -430,9 +444,15 @@
                 .content {
                     padding: 1.5rem;
                 }
+                /* MODIFIKASI: CSS Header Responsif Dikembalikan */
                 .header {
-                    padding: 1.25rem 1.5rem;
+                    padding: 1.5rem;
                 }
+                .header-logo {
+                    width: 80px;
+                    height: 80px;
+                }
+                /* AKHIR MODIFIKASI */
                 .header h1 {
                     font-size: 1.8rem;
                 }
@@ -601,9 +621,15 @@
     <body>
         <div class="container">
             <header class="header">
+                <img
+                    src="icon-web.jpg"
+                    alt="Logo RZDK Store"
+                    class="header-logo"
+                    onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/777?text=RZDK';"
+                />
                 <h1>Payment RZDK Store</h1>
+                <p>Pilih salah satu jenis metode pembayaran yang tersedia</p>
             </header>
-
             <main class="content">
                 <div class="tab-container" role="tablist">
                     <button
@@ -660,6 +686,7 @@
                         lain tidak tersedia. Terima kasih atas pengertian Anda.
                     </p>
                 </div>
+
                 <div
                     id="qris"
                     class="tab-content"
