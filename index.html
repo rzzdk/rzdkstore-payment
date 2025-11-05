@@ -61,18 +61,9 @@
                     #01a35a
                 );
                 color: #ffffff;
-                padding: 2rem;
+                /* MODIFIKASI: Padding disesuaikan untuk tampilan judul saja */
+                padding: 1.5rem 2rem;
                 text-align: center;
-            }
-
-            /* --- Logo Header --- */
-            .header-logo {
-                width: 100px;
-                height: 100px;
-                border-radius: 50%; /* Membuat logo menjadi bulat */
-                margin-bottom: 1rem;
-                object-fit: cover; /* Memastikan gambar mengisi lingkaran */
-                border: 3px solid rgba(255, 255, 255, 0.2);
             }
 
             .header h1 {
@@ -81,22 +72,17 @@
                 font-weight: 600;
             }
 
-            .header p {
-                margin: 0.5rem 0 0;
-                opacity: 0.9;
-            }
-
             /* --- Content --- */
             .content {
                 padding: 2.5rem;
             }
 
-            /* --- PENYESUAIAN 1: Tab System --- */
+            /* --- Tab System --- */
             .tab-container {
                 display: flex;
                 border-bottom: 1px solid var(--border-color);
                 margin-bottom: 2rem;
-                justify-content: center; /* <-- PERUBAHAN DI SINI: Tab rata tengah */
+                justify-content: center;
             }
 
             .tab-link {
@@ -108,9 +94,9 @@
                 font-weight: 500;
                 color: var(--text-color);
                 transition: all 0.2s ease-in-out;
-                margin-bottom: -1px; /* Agar border bawah menyatu */
+                margin-bottom: -1px;
                 border-bottom: 3px solid transparent;
-                white-space: nowrap; /* Mencegah teks tab terpotong/wrap */
+                white-space: nowrap;
             }
 
             .tab-link:hover {
@@ -125,19 +111,18 @@
             }
 
             .tab-content {
-                display: none; /* Sembunyikan semua konten tab secara default */
+                display: none;
             }
 
             .tab-content.active {
-                display: block; /* Tampilkan hanya konten tab yang aktif */
+                display: block;
             }
-            /* --- AKHIR PENYESUAIAN 1: Tab System --- */
 
-            /* --- Style untuk Placeholder --- */
+            /* --- MODIFIKASI: Style untuk Placeholder --- */
             .payment-placeholder {
                 display: none; /* Sembunyi by default */
                 text-align: center;
-                padding: 3rem 1.5rem;
+                padding: 2.5rem 1.5rem; /* Padding disesuaikan */
                 background-color: #fdfdfd;
                 border: 1px dashed var(--border-color);
                 border-radius: 10px;
@@ -148,11 +133,10 @@
                 display: block; /* Tampil jika punya class 'active' */
             }
 
-            .placeholder-logo {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                object-fit: cover;
+            .placeholder-icon {
+                width: 48px;
+                height: 48px;
+                object-fit: contain;
                 margin-bottom: 1rem;
                 opacity: 0.8;
             }
@@ -160,13 +144,22 @@
             .payment-placeholder h3 {
                 font-size: 1.5rem;
                 color: var(--dark-gray);
-                margin: 0 0 0.5rem 0;
+                margin: 0 0 1rem 0; /* Tambah margin-bottom */
             }
 
             .payment-placeholder p {
                 font-size: 1rem;
-                margin: 0;
+                margin: 0 auto; /* Rata tengah */
+                opacity: 0.9;
+                max-width: 550px; /* Batasi lebar paragraf */
+                line-height: 1.7;
+            }
+
+            .payment-placeholder p.placeholder-text-secondary {
+                font-size: 0.9rem;
+                margin-top: 1.5rem; /* Spasi dari paragraf atas */
                 opacity: 0.8;
+                line-height: 1.6;
             }
             /* --- Akhir Style Placeholder --- */
 
@@ -182,7 +175,6 @@
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             }
 
-            /* Perubahan: Hapus margin-bottom dari item terakhir di tab bank/ewallet */
             #bank .payment-method:last-child,
             #ewallet .payment-method:last-child {
                 margin-bottom: 0;
@@ -294,12 +286,12 @@
                 text-decoration: none;
                 display: inline-block;
                 margin-top: 1rem;
-                background-color: #6c757d; /* Warna abu-abu sekunder */
+                background-color: #6c757d;
                 color: #ffffff;
             }
             .download-btn:hover {
                 background-color: #5a6268;
-                opacity: 1; /* Override opacity hover jika ada */
+                opacity: 1;
             }
 
             .copy-btn:hover {
@@ -361,42 +353,37 @@
                 padding: 0 1rem 1rem;
                 font-size: 0.9rem;
                 color: #888;
-                margin-top: 1rem; /* Tambahan untuk spasi dari container */
+                margin-top: 1rem;
             }
 
-            /* --- PENYESUAIAN 2: Konten QRIS Rata Tengah --- */
-            /* Mengatur header (logo + teks) QRIS ke tengah */
+            /* --- Konten QRIS Rata Tengah --- */
             #qris .method-header {
                 justify-content: center;
             }
 
-            /* Mengatur paragraf deskripsi pertama QRIS ke tengah */
             #qris .method-body > p:first-of-type {
                 text-align: center;
             }
-            /* --- AKHIR PENYESUAIAN 2 --- */
 
             /* ---  CSS Akordeon --- */
             #bank .method-body,
             #ewallet .method-body {
                 max-height: 0;
                 overflow: hidden;
-                padding-top: 0; /* Hapus padding saat tertutup */
-                padding-bottom: 0; /* Hapus padding saat tertutup */
+                padding-top: 0;
+                padding-bottom: 0;
                 transition:
                     max-height 0.4s ease-in-out,
                     padding-top 0.4s ease-in-out,
                     padding-bottom 0.4s ease-in-out;
             }
 
-            /* Saat Akordeon Aktif (terbuka) */
             #bank .payment-method.active .method-body,
             #ewallet .payment-method.active .method-body {
-                max-height: 1000px; /* Atur ke angka besar (untuk transisi) */
-                padding: 1.5rem; /* Kembalikan padding asli */
+                max-height: 1000px;
+                padding: 1.5rem;
             }
 
-            /* Penyesuaian Header agar bisa diklik dan ada indikator */
             #bank .method-header,
             #ewallet .method-header {
                 cursor: pointer;
@@ -420,13 +407,11 @@
                 transition: transform 0.3s ease-out;
             }
 
-            /* Saat aktif, putar panah */
             #bank .payment-method.active .method-header::after,
             #ewallet .payment-method.active .method-header::after {
                 transform: rotate(180deg);
             }
 
-            /* Saat tidak aktif, hapus border bawah header */
             #bank .payment-method:not(.active) .method-header,
             #ewallet .payment-method:not(.active) .method-header {
                 border-bottom: none;
@@ -446,12 +431,7 @@
                     padding: 1.5rem;
                 }
                 .header {
-                    padding: 1.5rem;
-                }
-                /* PENYESUAIAN RESPONSIF: Perkecil logo di HP */
-                .header-logo {
-                    width: 80px;
-                    height: 80px;
+                    padding: 1.25rem 1.5rem;
                 }
                 .header h1 {
                     font-size: 1.8rem;
@@ -476,17 +456,13 @@
                 }
                 .tab-container {
                     width: 100%;
-                    /* Justify-content: center; tidak diperlukan di mobile
-                       karena tab-link di bawah sudah diatur flex: 1 */
                 }
                 .tab-link {
-                    flex: 1; /* Membuat 3 tab memenuhi lebar */
+                    flex: 1;
                     text-align: center;
-                    font-size: 0.9rem; /* Perkecil font di HP */
+                    font-size: 0.9rem;
                     padding: 0.75rem 0.25rem;
                 }
-
-                /* PERUBAHAN RESPONSIF: Pastikan header QRIS tetap tengah di mobile */
                 #qris .method-header {
                     justify-content: center;
                 }
@@ -495,11 +471,10 @@
     </head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-
             /* ---  Logika Tab (Versi Toggle + Placeholder) --- */
             const tabLinks = document.querySelectorAll(".tab-link");
             const tabContents = document.querySelectorAll(".tab-content");
-            const placeholder = document.getElementById("payment-placeholder"); // <-- Tambahkan ini
+            const placeholder = document.getElementById("payment-placeholder");
 
             tabLinks.forEach((link) => {
                 link.addEventListener("click", () => {
@@ -520,23 +495,19 @@
                         // Jika tab TADI TIDAK aktif (berarti sekarang kita BUKA)
                         link.classList.add("active");
                         link.setAttribute("aria-selected", "true");
-                        document.getElementById(targetTab).classList.add("active");
+                        document
+                            .getElementById(targetTab)
+                            .classList.add("active");
 
-                        placeholder.classList.remove("active"); // <-- Sembunyikan Placeholder
+                        placeholder.classList.remove("active"); // Sembunyikan Placeholder
                     } else {
                         // Jika tab TADI SUDAH aktif (berarti sekarang kita TUTUP)
-                        // Karena langkah #1 sudah menutup semua, kita tinggal
-                        // tampilkan lagi placeholder-nya
-                        placeholder.classList.add("active"); // <-- Tampilkan Placeholder
+                        placeholder.classList.add("active"); // Tampilkan Placeholder
                     }
                 });
             });
 
             /* ---  Anti-Inspect & View Source --- */
-            // Peringatan: Ini tidak memberikan keamanan nyata dan
-            // merusak pengalaman pengguna (UX). Tidak direkomendasikan.
-
-            // Blok Klik Kanan
             document.addEventListener(
                 "contextmenu",
                 function (e) {
@@ -544,31 +515,17 @@
                 },
                 false,
             );
-
-            // Blok Shortcut Keyboard
             document.addEventListener(
                 "keydown",
                 function (e) {
-                    // Ctrl+U (View Source)
-                    if (e.ctrlKey && e.keyCode == 85) {
+                    if (e.ctrlKey && e.keyCode == 85) e.preventDefault();
+                    if (e.keyCode == 123) e.preventDefault();
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 73)
                         e.preventDefault();
-                    }
-                    // F12 (Dev Tools)
-                    if (e.keyCode == 123) {
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 74)
                         e.preventDefault();
-                    }
-                    // Ctrl+Shift+I (Dev Tools)
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 67)
                         e.preventDefault();
-                    }
-                    // Ctrl+Shift+J (Dev Tools)
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
-                        e.preventDefault();
-                    }
-                    // Ctrl+Shift+C (Dev Tools)
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 67) {
-                        e.preventDefault();
-                    }
                 },
                 false,
             );
@@ -580,30 +537,26 @@
 
             accordionTriggers.forEach((trigger) => {
                 trigger.addEventListener("click", function () {
-                    const parentItem = this.parentElement; // .payment-method
-                    const parentTabContent = parentItem.parentElement; // #bank atau #ewallet
+                    const parentItem = this.parentElement;
+                    const parentTabContent = parentItem.parentElement;
                     const wasActive = parentItem.classList.contains("active");
 
-                    // 1. Nonaktifkan semua item di dalam tab ini
                     const allItemsInTab =
                         parentTabContent.querySelectorAll(".payment-method");
                     allItemsInTab.forEach((item) => {
                         item.classList.remove("active");
                     });
 
-                    // 2. Jika item yang diklik tadi *tidak* aktif, aktifkan
                     if (!wasActive) {
                         parentItem.classList.add("active");
                     }
-                    // Jika sudah aktif, langkah 1 sudah menonaktifkannya (efek toggle)
                 });
             });
 
-            /* --- Logika Tombol Salin (Copy) Anda yang sudah ada --- */
+            /* --- Logika Tombol Salin (Copy) --- */
             const copyButtons = document.querySelectorAll(".copy-btn");
 
             copyButtons.forEach((button) => {
-                // Hanya tambahkan event listener jika bukan tombol deeplink ATAU tombol download
                 if (
                     !button.classList.contains("deeplink-btn") &&
                     !button.classList.contains("download-btn")
@@ -648,14 +601,7 @@
     <body>
         <div class="container">
             <header class="header">
-                <img
-                    src="icon-web.jpg"
-                    alt="Logo RZDK Store"
-                    class="header-logo"
-                    onerror="this.onerror=null;this.src='https://placehold.co/100x100/ffffff/777?text=RZDK';"
-                />
                 <h1>Payment RZDK Store</h1>
-                <p>Pilih salah satu jenis metode pembayaran yang tersedia</p>
             </header>
 
             <main class="content">
@@ -692,10 +638,27 @@
                     </button>
                 </div>
 
-                <div id="payment-placeholder" class="payment-placeholder active">
-                    <img src="icon-web.jpg" alt="Logo RZDK Store" class="placeholder-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/ffffff/777?text=RZDK';"/>
-                    <h3>Pilih Metode Pembayaran</h3>
-                    <p>Silakan pilih salah satu metode pembayaran di atas (QRIS, Transfer Bank, atau E-Wallet) untuk melanjutkan.</p>
+                <div
+                    id="payment-placeholder"
+                    class="payment-placeholder active"
+                >
+                    <img
+                        src="warning.png"
+                        alt="Ikon Peringatan"
+                        class="placeholder-icon"
+                        onerror="this.onerror=null;this.src='https://placehold.co/48x48/ee4d2d/ffffff?text=!';"
+                    />
+                    <h3>Mohon Utamakan Transfer Bank / E-Wallet</h3>
+                    <p>
+                        Untuk membantu kelancaran proses kami, mohon utamakan
+                        pembayaran via <strong>Transfer Bank</strong> atau
+                        <strong>E-Wallet</strong>. Pembayaran via QRIS akan
+                        mengalami <em>delay</em> pencairan dana di sisi kami.
+                    </p>
+                    <p class="placeholder-text-secondary">
+                        Silakan gunakan QRIS sebagai opsi alternatif jika metode
+                        lain tidak tersedia. Terima kasih atas pengertian Anda.
+                    </p>
                 </div>
                 <div
                     id="qris"
@@ -713,7 +676,7 @@
                                     height: auto;
                                     margin-right: 0.8rem;
                                 "
-                                onerror="this.onerror=null;this.src='https://placehold.co/48x32/eef0f2/777?text=QRIS';"
+                                onerror="this.onerror=null;this.src='https.placehold.co/48x32/eef0f2/777?text=QRIS';"
                             />
                         </div>
                         <div class="method-body">
@@ -726,7 +689,7 @@
                                     src="qris-rzdkstore.png"
                                     alt="QRIS Code RZDK Store"
                                     class="qris-image"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/280x280/eef0f2/777?text=QRIS+Anda';"
+                                    onerror="this.onerror=null;this.src='https.placehold.co/280x280/eef0f2/777?text=QRIS+Anda';"
                                 />
                                 <br /><a
                                     href="qris-rzdkstore.png"
@@ -757,7 +720,7 @@
                             <img
                                 src="logojago.png"
                                 alt="Logo Bank Jago"
-                                onerror="this.onerror=null;this.src='https://placehold.co/32x32/FDB813/333?text=J';"
+                                onerror="this.onerror=null;this.src='https.placehold.co/32x32/FDB813/333?text=J';"
                             />
                             <h2>Bank Jago Syariah</h2>
                         </div>
@@ -1003,5 +966,5 @@
         <footer class="footer">
             <p>© 2025 RZDK Store. All rights reserved.</p>
         </footer>
-        </body>
+    </body>
 </html>
