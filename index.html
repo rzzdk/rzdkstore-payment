@@ -457,29 +457,32 @@
     </head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            /* ---  Logika Tab --- */
+
+            /* ---  Logika Tab (Versi Toggle) --- */
             const tabLinks = document.querySelectorAll(".tab-link");
             const tabContents = document.querySelectorAll(".tab-content");
 
             tabLinks.forEach((link) => {
                 link.addEventListener("click", () => {
                     const targetTab = link.getAttribute("data-tab"); // misal: "bank"
+                    const wasActive = link.classList.contains("active"); // Cek apakah tab ini SUDAH aktif
 
                     // 1. Nonaktifkan semua tab link dan konten
                     tabLinks.forEach((item) => {
                         item.classList.remove("active");
-                        item.setAttribute("aria-selected", "false"); // <-- MODIFIKASI ARIA
+                        item.setAttribute("aria-selected", "false");
                     });
                     tabContents.forEach((item) =>
                         item.classList.remove("active"),
                     );
 
-                    // 2. Aktifkan tab link yang diklik
-                    link.classList.add("active");
-                    link.setAttribute("aria-selected", "true"); // <-- MODIFIKASI ARIA
-
-                    // 3. Aktifkan konten yang sesuai
-                    document.getElementById(targetTab).classList.add("active");
+                    // 2. Jika tab yang diklik TADI TIDAK aktif, maka sekarang aktifkan
+                    //    (Jika sudah aktif, langkah 1 sudah menutupnya, dan kode ini di-skip)
+                    if (!wasActive) {
+                        link.classList.add("active");
+                        link.setAttribute("aria-selected", "true");
+                        document.getElementById(targetTab).classList.add("active");
+                    }
                 });
             });
 
@@ -612,11 +615,11 @@
             <main class="content">
                 <div class="tab-container" role="tablist">
                     <button
-                        class="tab-link active"
+                        class="tab-link"
                         data-tab="qris"
                         role="tab"
                         aria-controls="qris"
-                        aria-selected="true"
+                        aria-selected="false"
                         id="tab-qris"
                     >
                         QRIS
@@ -645,7 +648,7 @@
 
                 <div
                     id="qris"
-                    class="tab-content active"
+                    class="tab-content"
                     role="tabpanel"
                     aria-labelledby="tab-qris"
                 >
