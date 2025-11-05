@@ -123,6 +123,8 @@
             .tab-link {
                 flex-grow: 1; /* DIUBAH: Membuat tombol memenuhi ruang */
                 flex-shrink: 0;
+                /* MODIFIKASI FINAL: Ditambahkan agar lebar sama rata */
+                flex-basis: 0;
                 padding: 12px 10px; /* DIUBAH: Padding baru */
                 cursor: pointer;
                 background: none; /* DIUBAH: Latar transparan */
@@ -515,7 +517,10 @@
                 }
 
                 .tab-link {
-                    /* font-size: 0.9rem; */ /* Ukuran font sudah diatur oleh .tab-link */
+                    /* MODIFIKASI FINAL: Mengembalikan ke auto agar bisa scroll */
+                    flex-grow: 0;
+                    flex-basis: auto;
+                    /* --- */
                     padding: 12px 15px; /* Sesuaikan padding responsif */
                     flex-shrink: 0; /* Mencegah tombol menyusut */
                     white-space: nowrap; /* Pastikan teks tidak terpotong */
