@@ -133,6 +133,43 @@
             }
             /* --- AKHIR PENYESUAIAN 1: Tab System --- */
 
+            /* --- Style untuk Placeholder --- */
+            .payment-placeholder {
+                display: none; /* Sembunyi by default */
+                text-align: center;
+                padding: 3rem 1.5rem;
+                background-color: #fdfdfd;
+                border: 1px dashed var(--border-color);
+                border-radius: 10px;
+                color: var(--text-color);
+            }
+
+            .payment-placeholder.active {
+                display: block; /* Tampil jika punya class 'active' */
+            }
+
+            .placeholder-logo {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 1rem;
+                opacity: 0.8;
+            }
+
+            .payment-placeholder h3 {
+                font-size: 1.5rem;
+                color: var(--dark-gray);
+                margin: 0 0 0.5rem 0;
+            }
+
+            .payment-placeholder p {
+                font-size: 1rem;
+                margin: 0;
+                opacity: 0.8;
+            }
+            /* --- Akhir Style Placeholder --- */
+
             /* --- Payment Method Card --- */
             .payment-method {
                 border: 1px solid var(--border-color);
@@ -324,6 +361,7 @@
                 padding: 0 1rem 1rem;
                 font-size: 0.9rem;
                 color: #888;
+                margin-top: 1rem; /* Tambahan untuk spasi dari container */
             }
 
             /* --- PENYESUAIAN 2: Konten QRIS Rata Tengah --- */
@@ -458,16 +496,17 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
-            /* ---  Logika Tab (Versi Toggle) --- */
+            /* ---  Logika Tab (Versi Toggle + Placeholder) --- */
             const tabLinks = document.querySelectorAll(".tab-link");
             const tabContents = document.querySelectorAll(".tab-content");
+            const placeholder = document.getElementById("payment-placeholder"); // <-- Tambahkan ini
 
             tabLinks.forEach((link) => {
                 link.addEventListener("click", () => {
-                    const targetTab = link.getAttribute("data-tab"); // misal: "bank"
-                    const wasActive = link.classList.contains("active"); // Cek apakah tab ini SUDAH aktif
+                    const targetTab = link.getAttribute("data-tab");
+                    const wasActive = link.classList.contains("active");
 
-                    // 1. Nonaktifkan semua tab link dan konten
+                    // 1. Nonaktifkan semua tab & konten
                     tabLinks.forEach((item) => {
                         item.classList.remove("active");
                         item.setAttribute("aria-selected", "false");
@@ -476,12 +515,19 @@
                         item.classList.remove("active"),
                     );
 
-                    // 2. Jika tab yang diklik TADI TIDAK aktif, maka sekarang aktifkan
-                    //    (Jika sudah aktif, langkah 1 sudah menutupnya, dan kode ini di-skip)
+                    // 2. Logika Inti
                     if (!wasActive) {
+                        // Jika tab TADI TIDAK aktif (berarti sekarang kita BUKA)
                         link.classList.add("active");
                         link.setAttribute("aria-selected", "true");
                         document.getElementById(targetTab).classList.add("active");
+
+                        placeholder.classList.remove("active"); // <-- Sembunyikan Placeholder
+                    } else {
+                        // Jika tab TADI SUDAH aktif (berarti sekarang kita TUTUP)
+                        // Karena langkah #1 sudah menutup semua, kita tinggal
+                        // tampilkan lagi placeholder-nya
+                        placeholder.classList.add("active"); // <-- Tampilkan Placeholder
                     }
                 });
             });
@@ -646,6 +692,11 @@
                     </button>
                 </div>
 
+                <div id="payment-placeholder" class="payment-placeholder active">
+                    <img src="icon-web.jpg" alt="Logo RZDK Store" class="placeholder-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/ffffff/777?text=RZDK';"/>
+                    <h3>Pilih Metode Pembayaran</h3>
+                    <p>Silakan pilih salah satu metode pembayaran di atas (QRIS, Transfer Bank, atau E-Wallet) untuk melanjutkan.</p>
+                </div>
                 <div
                     id="qris"
                     class="tab-content"
@@ -662,7 +713,7 @@
                                     height: auto;
                                     margin-right: 0.8rem;
                                 "
-                                onerror="this.onerror=null;this.src='https.placehold.co/48x32/eef0f2/777?text=QRIS';"
+                                onerror="this.onerror=null;this.src='https://placehold.co/48x32/eef0f2/777?text=QRIS';"
                             />
                         </div>
                         <div class="method-body">
@@ -675,7 +726,7 @@
                                     src="qris-rzdkstore.png"
                                     alt="QRIS Code RZDK Store"
                                     class="qris-image"
-                                    onerror="this.onerror=null;this.src='https.placehold.co/280x280/eef0f2/777?text=QRIS+Anda';"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/280x280/eef0f2/777?text=QRIS+Anda';"
                                 />
                                 <br /><a
                                     href="qris-rzdkstore.png"
@@ -948,5 +999,9 @@
                 </div>
             </main>
         </div>
-    </body>
+
+        <footer class="footer">
+            <p>© 2025 RZDK Store. All rights reserved.</p>
+        </footer>
+        </body>
 </html>
